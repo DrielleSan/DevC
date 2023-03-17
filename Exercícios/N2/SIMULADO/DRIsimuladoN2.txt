@@ -1,0 +1,83 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<time.h>
+#include<string.h>
+
+main(){
+	int x=0,nt=113,m,lc,ts,dias;
+	float tfret,ttrans,mfre,mtranp,tinter,tdias;
+	float maiorVS,tset,mset,tout,mout,tnov,mnov;
+	
+	struct empresa{
+		char mes[10];
+		float vs;
+		char tipo[10];
+		char loc[15];
+		float pd15i;
+	};
+	
+	srand(time(NULL));
+	printf("COD\t MES\t         TIPO\t     LOCAL\t           DIAS\t         VALOR\n");
+	struct empresa emp[123];
+	for(x=1;x<123;x++){
+		m=rand()%42;
+		ts=rand()%2;
+		lc=rand()%2;
+		dias=(rand()%29)+1;
+		if(m<=33){
+			sprintf(emp[x].mes,"NOVEMBRO");
+			tnov++;
+		}
+		if((m>33)&&(m<41)){
+			sprintf(emp[x].mes,"SETEMBRO");
+			tset++;
+		}
+		if(m>=41){
+			sprintf(emp[x].mes,"OUTUBRO ");
+			tout++;
+		}
+		if(ts==0){
+			sprintf(emp[x].tipo,"FRETAMENTO");
+			emp[x].vs=dias*300+500;
+			tfret++;
+		}
+		if(ts==1){
+			sprintf(emp[x].tipo,"TRANSPORTE");
+			emp[x].vs=dias*450+750;
+			ttrans++;
+		}
+		if(lc==0){
+			sprintf(emp[x].loc,"  ESTADUAL     ");
+		}
+		if(lc==1){
+			sprintf(emp[x].loc,"  INTERESTADUAL");
+			tinter++;
+				if(dias>15){
+				tdias++;
+			}
+		}
+		/*if(emp[x].vs>maiorVS){
+				maiorVS=emp[x].vs;
+		}*/
+	
+		printf("NT17%.3d\t %s\t %s\t %d\t R$ %8.2f\n",x,emp[x].mes,emp[x].tipo,dias,emp[x].vs); 
+		//%8.2f mascara contando a quantidade total - inteiros e casas decimais.
+	}
+	emp[x].pd15i=tdias/tinter*100;
+	printf("\n2 - O percentual de NT's com duracao maior que 15 dias que eram interestaduais: %.2f%%\n\n",emp[x].pd15i);
+	
+	mfre=tfret/x;
+	mtranp=ttrans/x;
+	printf("3 - A media de Dias das NT's - FRETAMENTO: %.2f\n",mfre);
+	printf("3 - A media de Dias das NT's - TRANSPORTE: %.2f\n\n",mtranp);
+		
+	//printf("4 - A NT %d de maior valor R$ %5.2f referente a %s de tipo %s, localidade %s e qtde de dias %d\n",x,emp[x].vs,emp[x].mes,emp[x].tipo,emp[x].loc,dias);
+	
+	mset=tset/x;
+	mout=tout/x;
+	mnov=tnov/x;
+	printf("5 - O valor medios das NTs - Setembro: %.2f\n",mset);
+	printf("5 - O valor medios das NTs - Outubro:  %.2f\n",mout);
+	printf("5 - O valor medios das NTs - Novembro: %.2f\n",mnov);	
+
+}
